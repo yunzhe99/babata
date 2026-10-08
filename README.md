@@ -52,4 +52,6 @@ These checks exercise local behavior. A deployment also needs live model, HTTPS,
 
 ## License
 
-[MIT](LICENSE), except the Moby-derived security policies under `deploy/security/`, which retain their [Apache-2.0 license and attribution](deploy/security/NOTICE). Third-party runtimes and services retain their own licenses and terms.
+Public licensing terms are pending the author's decision. The current Babata-authored source is marked [all rights reserved](LICENSE); public visibility is not a general license to use it. Obtain express permission before use. This notice does not purport to revoke earlier versions' license grants.
+
+The Moby-derived security policies under `deploy/security/` retain their [Apache-2.0 license and attribution](deploy/security/NOTICE). Third-party runtimes and services retain their own licenses and terms.

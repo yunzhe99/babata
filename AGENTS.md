@@ -2,6 +2,8 @@
 
 This is a public source repository. Start with `docs/AGENT_INSTALL.md` when asked to deploy it. Work toward one functioning private instance before adding features.
 
+Read `LICENSE` first. Public licensing terms are pending; confirm the author has expressly authorized the owner's intended use. Public visibility alone is not a general use license.
+
 ## Privacy and isolation
 
 - Use the new owner's credentials, domain, person ID, endpoint token, database volume, Codex state, and photo volume. Create fresh state for each person.

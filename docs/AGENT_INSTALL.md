@@ -2,6 +2,8 @@
 
 This guide is for a coding agent working for the person who will wear the glasses. Deploy the server first, verify it, then prepare that person's private AIUI project. The public source includes both the glasses client and the backend; it contains no existing person's data or access credentials.
 
+Read `LICENSE` and confirm the author's express authorization for the intended use before installing. Public licensing terms are currently pending; public repository visibility alone does not grant a general use license.
+
 Run server commands from the instance checkout's root unless a step explicitly changes directories. `/ABSOLUTE/PRIVATE/...` and `glasses.example.com` are examples to replace with this owner's paths and domain.
 
 ## 1. Collect the required inputs

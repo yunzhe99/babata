@@ -5,7 +5,7 @@ Copyright 2013-2018 Docker, Inc.
 The files babata-native and seccomp-native.json are derived from the
 Docker/Moby default AppArmor and seccomp profiles. They remain licensed
 under Apache License 2.0, as reproduced in this directory's LICENSE.
-The repository's root MIT license does not replace their Apache license.
+The repository's root copyright notice does not replace their Apache license.
 
 Upstream projects and policy sources:
 https://github.com/moby/moby
@@ -26,4 +26,4 @@ Babata modifications:
   justification to grant broader container privileges.
 
 This notice documents upstream attribution and the modified profiles.
-It does not change the terms of either license.
+It does not change the terms of the Apache license.
