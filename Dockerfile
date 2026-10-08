@@ -19,6 +19,7 @@ RUN useradd --create-home --uid 10001 babata \
     && chown -R 10001:10001 /var/lib/babata-tokyo /photos
 COPY babata ./babata
 COPY LICENSE ./LICENSE
+COPY NOTICE ./NOTICE
 USER 10001:10001
 
 EXPOSE 8000 8001

@@ -52,6 +52,8 @@ These checks exercise local behavior. A deployment also needs live model, HTTPS,
 
 ## License
 
-Public licensing terms are pending the author's decision. The current Babata-authored source is marked [all rights reserved](LICENSE); public visibility is not a general license to use it. Obtain express permission before use. This notice does not purport to revoke earlier versions' license grants.
+[PolyForm Noncommercial 1.0.0](LICENSE). Noncommercial personal uses and the institutional uses listed in the license are free under its terms. Commercial purposes outside those permissions require a separate written license. See [licensing and commercial requests](LICENSING.md).
+
+The copyright holder retains the ability to use and separately license their own code commercially. This is a source-available noncommercial project. The current license does not revoke earlier versions' license grants.
 
 The Moby-derived security policies under `deploy/security/` retain their [Apache-2.0 license and attribution](deploy/security/NOTICE). Third-party runtimes and services retain their own licenses and terms.

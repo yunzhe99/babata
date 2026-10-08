@@ -29,3 +29,7 @@ When the owner says “打开巴巴塔” or “和巴巴塔聊天”, launch th
 This package belongs to one person and one server instance. Do not route another person's request into the same instance. The `voice-memory` session ID provides continuity within that person's instance; it does not isolate different people by itself.
 
 Microphone and camera permissions are declared in `app.json` and require actual device authorization. Local tests and Studio preview do not prove glasses acceptance.
+
+## Licensing
+
+Read the included LICENSE and NOTICE. Uses permitted by PolyForm Noncommercial 1.0.0 need no additional license. Commercial purposes outside those permissions need separate written authorization. Preserve both files when preparing or distributing this client.

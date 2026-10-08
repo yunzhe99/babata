@@ -4,6 +4,8 @@ This AIUI 0.18.x project opens a foreground voice session. It listens to one sen
 
 [Full agent installation guide](../../docs/AGENT_INSTALL.md)
 
+Licensed under [PolyForm Noncommercial 1.0.0](LICENSE). Uses outside its permitted purposes require separate commercial authorization; see [licensing details](../../LICENSING.md). Keep LICENSE and the required [NOTICE](NOTICE) with redistributed source and glasses packages.
+
 ## Behavior
 
 - The server model decides whether to answer or request one photo. The client never decides from camera keywords.

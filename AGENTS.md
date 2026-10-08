@@ -2,7 +2,7 @@
 
 This is a public source repository. Start with `docs/AGENT_INSTALL.md` when asked to deploy it. Work toward one functioning private instance before adding features.
 
-Read `LICENSE` first. Public licensing terms are pending; confirm the author has expressly authorized the owner's intended use. Public visibility alone is not a general use license.
+Read `LICENSE` and `LICENSING.md` first. Uses permitted by PolyForm Noncommercial 1.0.0 can proceed under its terms without requesting an additional license. Commercial purposes outside those permissions require a separate written license. Preserve LICENSE and required NOTICE files in distributed source, glasses projects, and images; do not treat the summary as overriding the license's institutional permissions.
 
 ## Privacy and isolation
 

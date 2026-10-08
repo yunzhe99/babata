@@ -1,0 +1,14 @@
+Required Notice: Copyright (c) 2026 yunzhe99 (https://github.com/yunzhe99)
+
+Babata-authored code and documentation in this version are offered under
+PolyForm Noncommercial License 1.0.0. See LICENSE and
+https://github.com/yunzhe99/babata/blob/main/LICENSING.md.
+Commercial use outside that license's permitted purposes requires a separate
+written license from the applicable copyright holder.
+
+Third-party material retains its own licenses. In particular, the Moby-derived
+policies in deploy/security/ remain under Apache License 2.0 and that directory's
+LICENSE and NOTICE. Dependencies, model runtimes, and external services remain
+subject to their respective terms.
+
+This version's license does not purport to revoke earlier versions' grants.

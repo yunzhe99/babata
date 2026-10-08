@@ -38,7 +38,7 @@ try {
     throw new Error('sessionId 或 timeoutMs 配置不正确。');
   }
   await mkdir(output, { mode: 0o700 });
-  for (const filename of ['LICENSE', 'AGENTS.md', 'app.json', 'app.js', '.aixignore', 'pages', 'lib']) {
+  for (const filename of ['LICENSE', 'NOTICE', 'AGENTS.md', 'app.json', 'app.js', '.aixignore', 'pages', 'lib']) {
     await cp(path.join(source, filename), path.join(output, filename), { recursive: true });
   }
   await writeFile(path.join(output, 'config.js'), `export default ${JSON.stringify(safeConfig, null, 2)};\n`, { mode: 0o600 });
