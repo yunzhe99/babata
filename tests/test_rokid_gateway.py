@@ -70,7 +70,9 @@ def test_preview_preflight_needs_no_token_and_never_calls_upstream(path, origin,
             assert {"content-type", "authorization"} <= allowed_headers
             assert "*" not in allowed_headers
             assert "access-control-allow-credentials" not in response.headers
-            assert response.headers["vary"] == "Origin"
+            vary = {value.strip().lower() for value in response.headers["vary"].split(",")}
+            assert "origin" in vary
+            assert "*" not in vary
             records = [r for r in caplog.records if r.name == "uvicorn.error.rokid"]
             assert [r.args for r in records] == [(path, 200, "OPTIONS", "expected")]
             response = await client.post(path, headers={"Origin": origin}, json={})
