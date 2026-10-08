@@ -7,7 +7,7 @@
     "node": ">=22.15.0"
   },
   "scripts": {
-    "test": "node --import ./tests/register-aiui-mocks.mjs --test --test-isolation=none tests/*.test.mjs"
+    "test": "node --import ./tests/register-aiui-mocks.mjs --test --experimental-test-isolation=none tests/*.test.mjs"
   },
   "license": "MIT"
 }
