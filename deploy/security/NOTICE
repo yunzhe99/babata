@@ -1,0 +1,29 @@
+Docker/Moby security policy attribution
+
+Copyright 2013-2018 Docker, Inc.
+
+The files babata-native and seccomp-native.json are derived from the
+Docker/Moby default AppArmor and seccomp profiles. They remain licensed
+under Apache License 2.0, as reproduced in this directory's LICENSE.
+The repository's root MIT license does not replace their Apache license.
+
+Upstream projects and policy sources:
+https://github.com/moby/moby
+https://github.com/moby/moby/blob/master/contrib/apparmor/template.go
+https://github.com/moby/profiles
+https://github.com/moby/profiles/blob/main/seccomp/default.json
+Official license copied from:
+https://raw.githubusercontent.com/moby/moby/master/LICENSE
+
+Babata modifications:
+- The AppArmor profile has a dedicated babata-native name and permits
+  Codex's native bubblewrap construction mounts in a child user namespace.
+  It retains proc/sys protections and disallows AF_ALG and AF_VSOCK.
+- The seccomp profile retains its restrictive default and adds the exact
+  reviewed clone/unshare flags and mount/pivot_root/detach operations used
+  by the native sandbox. The container drops all capabilities and runs
+  under the dedicated AppArmor policy; this file is not a standalone
+  justification to grant broader container privileges.
+
+This notice documents upstream attribution and the modified profiles.
+It does not change the terms of either license.

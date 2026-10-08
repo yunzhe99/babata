@@ -1,0 +1,26 @@
+# Use only when no existing HTTPS reverse proxy is being reused.
+# This replaces gateway HTTP with HTTPS, including its loopback 8081 mapping.
+# Set the three variables explicitly; this never assumes ownership of port 443.
+services:
+  gateway:
+    ports:
+      - "${HTTPS_PUBLISH_ADDRESS:?Set an explicit address and port, e.g. 127.0.0.1:8443}:8001"
+    volumes:
+      - type: bind
+        source: ${TLS_CERTIFICATE_FILE:?Provide your domain full chain certificate}
+        target: /tls/fullchain.pem
+        read_only: true
+        bind: {create_host_path: false}
+      - type: bind
+        source: ${TLS_PRIVATE_KEY_FILE:?Provide your domain certificate private key}
+        target: /tls/privkey.pem
+        read_only: true
+        bind: {create_host_path: false}
+    command: [uvicorn, babata.rokid_gateway:app, --http, httptools, --host, 0.0.0.0, --port, "8001", --workers, "1", --no-access-log, --limit-concurrency, "16", --ssl-keyfile, /tls/privkey.pem, --ssl-certfile, /tls/fullchain.pem]
+    healthcheck:
+      # Local liveness only. Public certificate validation is a separate check.
+      test:
+        - CMD
+        - python
+        - -c
+        - "import ssl, urllib.request, urllib.error; r=urllib.request.Request('https://127.0.0.1:8001/v1/chat', data=b'{}', method='POST'); exec('try:\n urllib.request.urlopen(r, timeout=3, context=ssl._create_unverified_context()); raise SystemExit(1)\nexcept urllib.error.HTTPError as e:\n raise SystemExit(0 if e.code == 401 else 1)')"

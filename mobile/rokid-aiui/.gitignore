@@ -1,0 +1,4 @@
+.aix/
+*.aix
+*.local.*
+node_modules/

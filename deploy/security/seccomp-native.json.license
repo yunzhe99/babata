@@ -1,0 +1,6 @@
+SPDX-License-Identifier: Apache-2.0
+SPDX-FileCopyrightText: 2013-2018 Docker, Inc.
+
+This Docker/Moby-derived seccomp profile was modified for Babata's native
+Codex sandbox. See NOTICE for the modification list and LICENSE for the
+complete Apache License 2.0 text.

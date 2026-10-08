@@ -1,0 +1,20 @@
+<view class="card">
+  <text class="title">巴巴塔</text>
+  <text ink:if="{{getDiag}}" class="diagnostic">{{getDiag}}</text>
+  <text class="build">构建 {{buildTag}} {{keyDiag}}</text>
+  <text ink:if="{{selfCheck}}" class="diagnostic">{{selfCheck}}</text>
+  <text ink:if="{{diagnostic}}" class="diagnostic">{{diagnostic}}</text>
+  <text ink:if="{{networkObservation}}" class="diagnostic">{{networkObservation}}</text>
+  <text class="status">{{status}}</text>
+  <text ink:if="{{partial}}" class="content">{{partial}}</text>
+  <text ink:if="{{notice}}" class="status">{{notice}}</text>
+  <view ink:if="{{question}}" class="section">
+    <text class="label">你说</text>
+    <text class="content">{{question}}</text>
+  </view>
+  <view ink:if="{{answer}}" class="section">
+    <text class="label">回复</text>
+    <text class="content">{{answer}}</text>
+  </view>
+  <text class="hint">说"退出"结束；离开后停止收音。</text>
+</view>

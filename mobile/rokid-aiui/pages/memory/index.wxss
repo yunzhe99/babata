@@ -1,0 +1,18 @@
+page {
+  background-color: #000000;
+  color: #00ff66;
+}
+.card {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.title { font-size: 23px; font-weight: bold; }
+.status { font-size: 17px; }
+.section { display: flex; flex-direction: column; gap: 4px; }
+.label { font-size: 16px; }
+.content { font-size: 21px; line-height: 1.4; white-space: pre-wrap; }
+.hint { font-size: 16px; }
+.build { font-size: 13px; color: #555555; }
+.diagnostic { font-size: 17px; color: #00ff66; }

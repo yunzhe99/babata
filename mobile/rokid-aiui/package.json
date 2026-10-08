@@ -1,0 +1,13 @@
+{
+  "name": "babata-rokid-aiui",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.15.0"
+  },
+  "scripts": {
+    "test": "node --import ./tests/register-aiui-mocks.mjs --test --test-isolation=none tests/*.test.mjs"
+  },
+  "license": "MIT"
+}

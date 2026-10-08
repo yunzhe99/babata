@@ -1,0 +1,11 @@
+# Invoked only by scripts/test_restart.py under a unique, disposable project.
+services:
+  babata:
+    depends_on:
+      mock:
+        condition: service_started
+  mock:
+    build: .
+    command: ["uvicorn", "mock_provider:app", "--host", "0.0.0.0", "--port", "9000"]
+    volumes:
+      - ./tests/mock_provider.py:/app/mock_provider.py:ro

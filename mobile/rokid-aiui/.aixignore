@@ -1,0 +1,11 @@
+tests/
+scripts/
+README.md
+package.json
+package-lock.json
+node_modules/
+*.aix
+.git/
+.aix/
+.gitignore
+*.local.*

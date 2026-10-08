@@ -1,0 +1,134 @@
+name: ${COMPOSE_PROJECT_NAME:?Run scripts/setup_instance.py first}
+
+x-babata-image: &babata-image
+  image: ${COMPOSE_PROJECT_NAME:?Run scripts/setup_instance.py first}-runtime:${TOKYO_CODEX_VERSION:-0.160.0}
+  build:
+    context: .
+    args:
+      CODEX_VERSION: ${TOKYO_CODEX_VERSION:-0.160.0}
+
+services:
+  babata:
+    <<: *babata-image
+    restart: unless-stopped
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+      - seccomp:${BABATA_SECCOMP_PROFILE:?Run scripts/setup_instance.py first}
+      - apparmor:babata-native
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,size=536870912,mode=1777
+    environment:
+      AGENT_RUNTIME: codex
+      LLM_PROVIDER: ${LLM_PROVIDER:-openai}
+      LLM_API_STYLE: responses
+      LLM_MODEL: ${LLM_MODEL:-gpt-5.6-luna}
+      LLM_API_KEY: ${LLM_API_KEY:?Set your own provider key}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.openai.com/v1}
+      LLM_TIMEOUT_SECONDS: ${LLM_TIMEOUT_SECONDS:-90}
+      LLM_MAX_TOKENS: ${LLM_MAX_TOKENS:-4096}
+      LLM_EXTRA_BODY: '{}'
+      # Rokid uses the native memory workflow; profile updates remain explicit.
+      AUTO_MEMORY_ENABLED: "false"
+      CODEX_BRIDGE_ENABLED: "false"
+      CODEX_USER_ID: ${CODEX_USER_ID:-user}
+      TOKYO_STATE_DIR: /var/lib/babata-tokyo
+      TOKYO_NATIVE_MEMORIES: ${TOKYO_NATIVE_MEMORIES:-true}
+      TOKYO_MEMORY_EXTRACT_MODEL: ${TOKYO_MEMORY_EXTRACT_MODEL:-gpt-5.6-luna}
+      TOKYO_MEMORY_CONSOLIDATION_MODEL: ${TOKYO_MEMORY_CONSOLIDATION_MODEL:-gpt-5.6-terra}
+      TOKYO_MODEL_CONTEXT_WINDOW: ${TOKYO_MODEL_CONTEXT_WINDOW:-0}
+      TOKYO_AUTO_COMPACT_TOKEN_LIMIT: ${TOKYO_AUTO_COMPACT_TOKEN_LIMIT:-0}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: babata
+      POSTGRES_USER: babata
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run scripts/setup_instance.py first}
+    volumes:
+      - native_state:/var/lib/babata-tokyo
+    networks: [private, egress]
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    logging:
+      driver: json-file
+      options: {max-size: 5m, max-file: "2"}
+
+  gateway:
+    <<: *babata-image
+    restart: unless-stopped
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 128
+    mem_limit: 512m
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,noexec,size=67108864,mode=1777
+    environment:
+      ROKID_GATEWAY_ENABLED: "true"
+      ROKID_GATEWAY_TOKEN: ${ROKID_GATEWAY_TOKEN:?Run scripts/setup_instance.py first}
+      ROKID_GATEWAY_USER_ID: ${CODEX_USER_ID:-user}
+      ROKID_GATEWAY_UPSTREAM_URL: http://babata:8000
+      ROKID_GATEWAY_TIMEOUT_SECONDS: ${ROKID_GATEWAY_TIMEOUT_SECONDS:-90}
+      ROKID_GATEWAY_PHOTO_STORE_DIR: /photos
+    # The private app and PostgreSQL have no host ports.
+    ports:
+      - "127.0.0.1:${ROKID_GATEWAY_PORT:-8081}:8001"
+    volumes:
+      - photos:/photos
+    networks: [private]
+    command: [uvicorn, babata.rokid_gateway:app, --http, httptools, --host, 0.0.0.0, --port, "8001", --workers, "1", --no-access-log, --limit-concurrency, "16"]
+    depends_on:
+      babata:
+        condition: service_healthy
+    healthcheck:
+      # A rejected unauthenticated request proves the auth boundary is active.
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request, urllib.error; r=urllib.request.Request('http://127.0.0.1:8001/v1/chat', data=b'{}', method='POST'); exec('try:\n urllib.request.urlopen(r, timeout=3); raise SystemExit(1)\nexcept urllib.error.HTTPError as e:\n raise SystemExit(0 if e.code == 401 else 1)')"
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    logging:
+      driver: json-file
+      options: {max-size: 5m, max-file: "2"}
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: babata
+      POSTGRES_USER: babata
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run scripts/setup_instance.py first}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [private]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    logging:
+      driver: json-file
+      options: {max-size: 5m, max-file: "2"}
+
+networks:
+  private:
+    internal: true
+  egress: {}
+
+# Compose prefixes all volumes with COMPOSE_PROJECT_NAME. Do not add shared names.
+volumes:
+  postgres_data: {}
+  native_state: {}
+  photos: {}
